@@ -34,7 +34,7 @@ export default defineConfig(({ command }) => ({
   ],
   define: {
     'process.env.NODE_ENV': JSON.stringify(getNodeEnv(command)),
-    'import.meta.env.VITE_VERSION': JSON.stringify(
+    'import.meta.env.VITE_APP_VERSION': JSON.stringify(
       process.env.npm_package_version
     ),
     'import.meta.env.VITE_COMMIT_HASH': JSON.stringify(
