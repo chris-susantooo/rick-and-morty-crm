@@ -21,6 +21,7 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': [
       'error',
       {
@@ -32,6 +33,11 @@ module.exports = {
         ],
       },
     ],
+    'react/function-component-definition': [
+      'error',
+      { namedComponents: 'arrow-function' },
+    ],
+    'react/jsx-props-no-spreading': 'off',
   },
   overrides: [
     {

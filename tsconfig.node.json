@@ -6,5 +6,11 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["vite.config.ts", "vitest.setup.ts", "commitlint.config.cjs"]
+  "include": [
+    "vite.config.ts",
+    "vitest.setup.ts",
+    "commitlint.config.cjs",
+    "tailwind.config.ts",
+    "postcss.config.js"
+  ]
 }

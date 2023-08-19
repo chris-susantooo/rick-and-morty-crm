@@ -1,25 +1,28 @@
-import { FC, ReactElement, ReactNode } from 'react';
 import { RenderOptions, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import routes from 'routes/config';
 
-interface Props {
-  children: ReactNode;
+interface RenderAppOptions {
+  route?: string;
 }
 
-const Providers: FC<Props> = ({ children }) =>
-  // Put providers here, e.g.
-  // <ThemeProvider theme="light">
-  //   <TranslationProvider messages={defaultStrings}>
-  children;
-//   </TranslationProvider>
-// </ThemeProvider>
+export const renderApp = ({
+  route,
+  ...options
+}: RenderOptions & RenderAppOptions = {}) => {
+  const router = createMemoryRouter(routes, {
+    initialEntries: [route ?? '/'],
+  });
 
-const customRender = (ui: ReactElement, options?: RenderOptions & any) =>
-  render(ui, { wrapper: Providers, ...options });
+  return {
+    router,
+    ...render(<RouterProvider router={router} />, {
+      ...options,
+    }),
+  };
+};
 
 // re-export everything
 export * from '@testing-library/react';
 export { userEvent };
-
-// override render method
-export { customRender as render };
