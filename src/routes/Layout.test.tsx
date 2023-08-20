@@ -1,73 +1,53 @@
-import { renderApp, screen, userEvent, within } from 'test-utils';
+import { renderApp, screen, userEvent, waitFor } from 'test-utils';
+
+vi.mock('rick-and-morty-api', () => ({
+  getCharacters: () =>
+    Promise.resolve({
+      status: 200,
+      data: {
+        results: [],
+      },
+    }),
+}));
 
 describe('Layout', () => {
-  describe('SideMenu', () => {
-    it('should render app title and nav links', () => {
-      renderApp();
-      const sideMenu = within(screen.getByRole('complementary'));
+  describe.each(['mobile', 'tablet', 'desktop'] as const)(
+    'navigation in %s',
+    layout => {
+      it('should render app title and nav links', () => {
+        renderApp({ screen: layout });
 
-      expect(
-        sideMenu.getByRole('heading', { name: 'Rick and Morty' })
-      ).toBeInTheDocument();
+        expect(
+          screen.getByRole('heading', { name: 'Rick and Morty' })
+        ).toBeInTheDocument();
 
-      expect(
-        sideMenu.getByRole('link', { name: 'Contact' })
-      ).toBeInTheDocument();
-    });
+        expect(
+          screen.getByRole('link', { name: 'Contact' })
+        ).toBeInTheDocument();
+      });
 
-    it('should navigate to /contact page when clicking on contact nav link', async () => {
-      renderApp();
-      const sideMenu = within(screen.getByRole('complementary'));
+      it('should navigate to /contact page when clicking on contact nav link', async () => {
+        renderApp({ screen: layout });
 
-      await userEvent.click(sideMenu.getByText('Contact'));
+        await userEvent.click(screen.getByRole('button', { name: 'Contact' }));
 
-      expect(document.title).toBe('Contacts | Rick and Morty');
-    });
+        await waitFor(() => {
+          expect(document.title).toBe('Contact | Rick and Morty');
+        });
+      });
 
-    it('should navigate to / page when clicking on app title', async () => {
-      renderApp({ route: '/contact' });
-      const sideMenu = within(screen.getByRole('complementary'));
+      it('should navigate to / page when clicking on app title', async () => {
+        renderApp({ route: '/contact', screen: layout });
+        await waitFor(() => {
+          expect(document.title).toBe('Contact | Rick and Morty');
+        });
 
-      await userEvent.click(
-        sideMenu.getByRole('heading', { name: 'Rick and Morty' })
-      );
+        await userEvent.click(
+          screen.getByRole('heading', { name: 'Rick and Morty' })
+        );
 
-      expect(document.title).toBe('Home | Rick and Morty');
-    });
-  });
-
-  describe('TopMenu', () => {
-    it('should render app title and nav links', () => {
-      renderApp();
-      const topMenu = within(screen.getByTestId('top-menu'));
-
-      expect(
-        topMenu.getByRole('heading', { name: 'Rick and Morty' })
-      ).toBeInTheDocument();
-
-      expect(
-        topMenu.getByRole('link', { name: 'Contact' })
-      ).toBeInTheDocument();
-    });
-
-    it('should navigate to /contact page when clicking on contact nav link', async () => {
-      renderApp();
-      const sideMenu = within(screen.getByTestId('top-menu'));
-
-      await userEvent.click(sideMenu.getByText('Contact'));
-
-      expect(document.title).toBe('Contacts | Rick and Morty');
-    });
-
-    it('should navigate to / page when clicking on app title', async () => {
-      renderApp({ route: '/contact' });
-      const sideMenu = within(screen.getByTestId('top-menu'));
-
-      await userEvent.click(
-        sideMenu.getByRole('heading', { name: 'Rick and Morty' })
-      );
-
-      expect(document.title).toBe('Home | Rick and Morty');
-    });
-  });
+        expect(document.title).toBe('Home | Rick and Morty');
+      });
+    }
+  );
 });
