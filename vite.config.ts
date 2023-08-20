@@ -19,7 +19,9 @@ function git(command: string) {
 export default defineConfig(({ command }) => ({
   plugins: [
     react(),
-    svgr(),
+    svgr({
+      exportAsDefault: true,
+    }),
     tsconfigPaths(),
     checker({
       typescript: {

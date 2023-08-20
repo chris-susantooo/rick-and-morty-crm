@@ -2,23 +2,28 @@ import { HTMLProps, forwardRef, useEffect } from 'react';
 import { cn } from 'utils';
 
 interface Props extends HTMLProps<HTMLDivElement> {
-  title: string;
+  title?: string;
 }
 
 const Page = forwardRef<HTMLDivElement, Props>(
   ({ className, title, children, ...rest }, ref) => {
     useEffect(() => {
-      document.title = `${title} | Rick and Morty`;
+      if (title) {
+        document.title = `${title} | Rick and Morty`;
+      }
     }, [title]);
 
     return (
-      <div
-        className={cn('flex flex-col lg:ms-64', className)}
+      <main
+        className={cn(
+          'flex h-[calc(100%-61px)] w-full flex-col lg:ms-64 lg:h-full',
+          className
+        )}
         ref={ref}
         {...rest}
       >
         {children}
-      </div>
+      </main>
     );
   }
 );

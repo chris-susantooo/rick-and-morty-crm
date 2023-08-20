@@ -7,11 +7,12 @@ module.exports = {
     'airbnb',
     'airbnb-typescript',
     'plugin:react-hooks/recommended',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
     'prettier',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', 'vitest'],
+  plugins: ['react-refresh', 'vitest', '@tanstack/query'],
   settings: {
     'testing-library/utils-module': 'test-utils',
   },
@@ -38,6 +39,7 @@ module.exports = {
       { namedComponents: 'arrow-function' },
     ],
     'react/jsx-props-no-spreading': 'off',
+    'react/require-default-props': 'off',
   },
   overrides: [
     {

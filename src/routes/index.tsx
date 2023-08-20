@@ -1,8 +1,10 @@
 import { RouteObject } from 'react-router-dom';
+import queryClient from 'utils/queryClient';
+import Contact from './Contact';
+import ContactDetails from './Contact/Details';
+import { loader as contactLoader } from './Contact/List';
+import Home from './Home';
 import Layout from './Layout';
-import Index from './Index';
-import Contacts from './Contacts';
-import ContactDetails from './ContactDetails';
 
 export default [
   {
@@ -11,11 +13,12 @@ export default [
     children: [
       {
         index: true,
-        element: <Index />,
+        element: <Home />,
       },
       {
         path: 'contact',
-        element: <Contacts />,
+        element: <Contact />,
+        loader: contactLoader(queryClient),
         children: [
           {
             path: ':id',
