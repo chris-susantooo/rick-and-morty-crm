@@ -1,5 +1,5 @@
 import { Character, getCharacters } from 'rickmortyapi';
-import { renderApp, screen, userEvent, waitFor } from 'test-utils';
+import { renderApp, screen, userEvent, waitFor, within } from 'test-utils';
 import characters from './__mocks__/characters.json';
 
 vi.mock('rickmortyapi');
@@ -93,12 +93,18 @@ describe('Contact list page', () => {
   });
 
   it('should render contact list items', async () => {
-    const { asFragment } = renderApp({ route: '/contact' });
+    renderApp({ route: '/contact' });
     await waitForRouteReady();
 
     const contacts = screen.getAllByRole('listitem');
     expect(contacts).toHaveLength(20);
-    expect(asFragment()).toMatchSnapshot();
+
+    const firstContact = within(contacts[0]);
+    expect(firstContact.getByText('Rick Sanchez')).toBeInTheDocument();
+    expect(firstContact.getByText('Human')).toBeInTheDocument();
+    expect(
+      firstContact.getByRole('img', { name: 'Rick Sanchez' })
+    ).toBeInTheDocument();
   });
 
   it('should render not found message on 404 error', async () => {
