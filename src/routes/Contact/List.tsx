@@ -17,7 +17,7 @@ import { ScrollArea } from 'components/ScrollArea';
 import { Loader2, Search } from 'lucide-react';
 import PillSelect from 'components/PillSelect';
 import Button from 'components/Button';
-import { cn } from 'utils';
+import { NotFoundError, cn } from 'utils';
 import { useResponsive } from 'hooks';
 import useSearchContactForm from './useSearchContactForm';
 
@@ -35,7 +35,7 @@ export const loader =
       ...(status && { status }),
       page: 1,
     };
-    await queryClient.ensureQueryData(contactListQuery(q));
+    await queryClient.prefetchQuery(contactListQuery(q));
 
     return q;
   };
@@ -46,7 +46,7 @@ const ContactList = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(
 
     const location = useLocation();
     const { isMobile } = useResponsive();
-    const { data, isFetching } = useContactList(filters);
+    const { data, isFetching, error } = useContactList(filters);
     const {
       nameRef,
       statusRef,
@@ -65,7 +65,6 @@ const ContactList = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(
     );
 
     const contacts = data?.data?.results;
-    const isNotFound = data?.status === 404;
 
     const ContactsWrapper = isMobile ? 'div' : ScrollArea;
 
@@ -111,6 +110,7 @@ const ContactList = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(
             </div>
             {hasActiveFilter && (
               <Button
+                type="button"
                 variant="link"
                 size="xs"
                 className="items-center pe-0"
@@ -122,7 +122,7 @@ const ContactList = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(
           </div>
         </Form>
 
-        {isNotFound && (
+        {error instanceof NotFoundError && (
           <div className="mt-3 space-y-1 text-center">
             <H4>No one&apos;s here 😿</H4>
             <Muted>Try again with another search.</Muted>
