@@ -19,7 +19,7 @@ const ContactItem = forwardRef<HTMLDivElement, Props>(
       <img
         src={avatarSrc}
         alt={name}
-        className="h-16 w-16 rounded-full bg-gray-200"
+        className="h-16 w-16 shrink-0 rounded-full bg-gray-200"
       />
       <div className="space-y-1">
         <P className={cn(active && 'font-semibold')}>{name}</P>

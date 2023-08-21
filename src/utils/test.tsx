@@ -1,10 +1,16 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 import { RenderOptions, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FC, ReactNode } from 'react';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import routes from 'routes';
 import { Context as ResponsiveContext } from 'react-responsive';
+import Toaster from 'components/Toast/Toaster';
+import { generalErrorToast } from 'hooks';
 
 interface RenderAppOptions {
   route?: string;
@@ -33,6 +39,9 @@ const createQueryClient = () =>
       error: process.env.NODE_ENV === 'test' ? () => {} : console.error,
       /* eslint-enable no-console */
     },
+    queryCache: new QueryCache({
+      onError: generalErrorToast,
+    }),
   });
 
 export const renderApp = ({
@@ -58,10 +67,13 @@ export const renderApp = ({
   return {
     router,
     queryClient,
-    ...render(<RouterProvider router={router} />, {
-      wrapper: Providers,
-      ...options,
-    }),
+    ...render(
+      <>
+        <RouterProvider router={router} />
+        <Toaster />
+      </>,
+      { wrapper: Providers, ...options }
+    ),
   };
 };
 

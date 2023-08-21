@@ -120,6 +120,21 @@ describe('Contact list page', () => {
     expect(await screen.findByText("No one's here 😿")).toBeInTheDocument();
   });
 
+  it('should render general error message on server error', async () => {
+    mockGetCharacters.mockResolvedValue({
+      status: 500,
+      data: {},
+      statusMessage: 'OK',
+    });
+
+    renderApp({ route: '/contact' });
+    await waitForRouteReady();
+
+    expect(
+      await screen.findByText('Oops! Something went wrong.')
+    ).toBeInTheDocument();
+  });
+
   it('should focus on search input when "/" is pressed', async () => {
     renderApp({ route: '/contact' });
     await waitForRouteReady();
