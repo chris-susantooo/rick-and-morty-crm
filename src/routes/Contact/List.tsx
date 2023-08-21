@@ -1,24 +1,16 @@
-import { QueryClient, useIsFetching } from '@tanstack/react-query';
+import { QueryClient } from '@tanstack/react-query';
 import Input from 'components/Input';
 import { H2, H4, KBD, Muted, Small } from 'components/Typography';
 import useContactList, { contactListQuery } from 'hooks/useContactList';
-import {
-  ChangeEventHandler,
-  HTMLProps,
-  forwardRef,
-  useEffect,
-  useRef,
-} from 'react';
+import { HTMLProps, forwardRef } from 'react';
 import {
   type LoaderFunction,
   Form,
-  useSubmit,
-  useNavigate,
   NavLink,
   useLocation,
+  useLoaderData,
 } from 'react-router-dom';
 import type { Character, CharacterFilter } from 'rickmortyapi';
-import { useDebounce, useKey } from 'rooks';
 import List from 'components/List';
 import ContactItem from 'components/ContactItem';
 import { ScrollArea } from 'components/ScrollArea';
@@ -27,6 +19,7 @@ import PillSelect from 'components/PillSelect';
 import Button from 'components/Button';
 import { cn } from 'utils';
 import { useResponsive } from 'hooks';
+import useSearchContactForm from './useSearchContactForm';
 
 export const loader =
   (queryClient: QueryClient): LoaderFunction =>
@@ -49,46 +42,21 @@ export const loader =
 
 const ContactList = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(
   ({ className, ...rest }, ref) => {
-    const { isMobile } = useResponsive();
-    const { filters, STATUSES, GENDERS, data } = useContactList();
-    const isFetching = useIsFetching(['contacts', 'list']) > 0;
-
-    const nameRef = useRef<HTMLInputElement>(null);
-    const statusRef = useRef<HTMLInputElement>(null);
-    const genderRef = useRef<HTMLInputElement>(null);
-
-    const submit = useSubmit();
-    const debouncedSubmit = useDebounce(submit, 500);
-
-    const onFormChange: ChangeEventHandler<HTMLInputElement> = event =>
-      debouncedSubmit(event.currentTarget.form);
+    const filters = useLoaderData() as CharacterFilter;
 
     const location = useLocation();
-    const navigate = useNavigate();
-    const resetFilters = () => {
-      navigate('/contact');
-    };
-
-    useKey(
-      '/',
-      () => {
-        nameRef.current?.focus();
-        nameRef.current?.setSelectionRange(0, nameRef.current.value.length);
-      },
-      { eventTypes: ['keyup'] }
-    );
-
-    useEffect(() => {
-      if (nameRef.current) {
-        nameRef.current.value = filters.name || '';
-      }
-      if (statusRef.current) {
-        statusRef.current.value = filters.status || '';
-      }
-      if (genderRef.current) {
-        genderRef.current.value = filters.gender || '';
-      }
-    }, [filters]);
+    const { isMobile } = useResponsive();
+    const { data, isFetching } = useContactList(filters);
+    const {
+      nameRef,
+      statusRef,
+      genderRef,
+      hasActiveFilter,
+      resetFilters,
+      onFormChange,
+      STATUSES,
+      GENDERS,
+    } = useSearchContactForm(filters);
 
     const inputIcon = isFetching ? (
       <Loader2 size={20} className="animate-spin text-muted-foreground" />
@@ -98,11 +66,6 @@ const ContactList = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(
 
     const contacts = data?.data?.results;
     const isNotFound = data?.status === 404;
-    const hasActiveFilter = !!(
-      filters.status ||
-      filters.gender ||
-      filters.name
-    );
 
     const ContactsWrapper = isMobile ? 'div' : ScrollArea;
 
