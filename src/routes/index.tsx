@@ -8,11 +8,10 @@ import Layout from './Layout';
 
 export default [
   {
-    path: '/',
     element: <Layout />,
     children: [
       {
-        index: true,
+        path: '/',
         element: <Home />,
       },
       {
