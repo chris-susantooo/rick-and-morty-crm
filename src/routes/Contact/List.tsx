@@ -26,6 +26,7 @@ import { Loader2, Search } from 'lucide-react';
 import PillSelect from 'components/PillSelect';
 import Button from 'components/Button';
 import { cn } from 'utils';
+import { useResponsive } from 'hooks';
 
 export const loader =
   (queryClient: QueryClient): LoaderFunction =>
@@ -48,6 +49,7 @@ export const loader =
 
 const ContactList = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(
   ({ className, ...rest }, ref) => {
+    const { isMobile } = useResponsive();
     const { filters, STATUSES, GENDERS, data } = useContactList();
     const isFetching = useIsFetching(['contacts', 'list']) > 0;
 
@@ -101,6 +103,8 @@ const ContactList = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(
       filters.gender ||
       filters.name
     );
+
+    const ContactsWrapper = isMobile ? 'div' : ScrollArea;
 
     return (
       <div
@@ -163,7 +167,7 @@ const ContactList = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(
         )}
 
         {contacts && contacts.length > 0 && (
-          <ScrollArea className="me-1 overflow-visible pe-5 ps-6 md:overflow-y-auto">
+          <ContactsWrapper className="me-1 pe-5 ps-6">
             <List
               items={contacts}
               render={(item: Character, { Item }) => (
@@ -184,7 +188,7 @@ const ContactList = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(
                 </NavLink>
               )}
             />
-          </ScrollArea>
+          </ContactsWrapper>
         )}
       </div>
     );
