@@ -14,7 +14,7 @@ const TopMenu = forwardRef<HTMLDivElement, Props>(
     <div
       ref={ref}
       className={cn(
-        'container sticky top-0 z-20 w-full border-b border-b-gray-100 backdrop-blur-md',
+        'container sticky top-0 z-20 w-full shadow-sm backdrop-blur-md',
         className
       )}
       data-testid="top-menu"

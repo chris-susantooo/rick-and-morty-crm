@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import type { ApiResponse, Info } from 'rickmortyapi';
+import type { ApiResponse } from 'rickmortyapi';
 
 export class AppError extends Error {
   httpCode: number | undefined;
@@ -18,7 +18,7 @@ export class NotFoundError extends AppError {
   }
 }
 
-export const withAppError = async <T extends Promise<ApiResponse<Info<any>>>>(
+export const withAppError = async <T extends Promise<ApiResponse<any>>>(
   invokedRickAndMortyApi: T
 ): Promise<Awaited<T>> => {
   const result = await invokedRickAndMortyApi;

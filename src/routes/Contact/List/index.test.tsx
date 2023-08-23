@@ -1,6 +1,6 @@
-import { Character, getCharacters } from 'rickmortyapi';
+import { getCharacters, type Character } from 'rickmortyapi';
 import { renderApp, screen, userEvent, waitFor, within } from 'test-utils';
-import characters from './__mocks__/characters.json';
+import characters from '../__mocks__/characters.json';
 
 vi.mock('rickmortyapi');
 const mockGetCharacters = vi.mocked(getCharacters);

@@ -9,7 +9,7 @@ interface Props extends HTMLProps<HTMLDivElement> {
   active?: boolean;
 }
 
-const ContactItem = forwardRef<HTMLDivElement, Props>(
+const ContactListItem = forwardRef<HTMLDivElement, Props>(
   ({ className, active, avatarSrc, name, species, ...rest }, ref) => (
     <div
       ref={ref}
@@ -29,4 +29,4 @@ const ContactItem = forwardRef<HTMLDivElement, Props>(
   )
 );
 
-export default ContactItem;
+export default ContactListItem;

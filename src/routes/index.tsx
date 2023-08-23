@@ -1,8 +1,7 @@
 import { RouteObject } from 'react-router-dom';
 import queryClient from 'utils/queryClient';
-import Contact from './Contact';
-import ContactDetails from './Contact/Details';
-import { loader as contactLoader } from './Contact/List';
+import contactListLoader from './Contact/List/loader';
+import contactDetailsLoader from './Contact/Details/loader';
 import Home from './Home';
 import Layout from './Layout';
 
@@ -16,12 +15,17 @@ export default [
       },
       {
         path: 'contact',
-        element: <Contact />,
-        loader: contactLoader(queryClient),
+        lazy: async () => ({
+          Component: (await import('./Contact')).default,
+        }),
+        loader: contactListLoader(queryClient),
         children: [
           {
             path: ':id',
-            element: <ContactDetails />,
+            lazy: async () => ({
+              Component: (await import('./Contact/Details')).default,
+            }),
+            loader: contactDetailsLoader(queryClient),
           },
         ],
       },

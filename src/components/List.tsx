@@ -8,7 +8,6 @@ interface RenderOptions {
 
 interface Props extends HTMLProps<HTMLUListElement> {
   items: any[];
-  unique?: string;
   render: (item: any, { index, Item }: RenderOptions) => ReactNode;
 }
 
@@ -28,7 +27,7 @@ const Item = forwardRef<HTMLLIElement, HTMLProps<HTMLLIElement>>(
 );
 
 const List = forwardRef<HTMLUListElement, Props>(
-  ({ items, render, unique, ...rest }, ref) => (
+  ({ items, render, ...rest }, ref) => (
     <ul className="flex flex-col gap-1" {...rest} ref={ref}>
       {items.map((item, index) => render(item, { index, Item }))}
     </ul>
