@@ -79,7 +79,12 @@ const ContactList = forwardRef<HTMLDivElement, HTMLProps<HTMLDivElement>>(
       >
         <H2 className="mx-6 mb-3">Contact</H2>
 
-        <Form id="search-contact" role="search" className="mx-6 mb-3">
+        <Form
+          id="search-contact"
+          role="search"
+          className="mx-6 mb-3"
+          action={location.pathname}
+        >
           <Input
             name="name"
             ref={nameRef}

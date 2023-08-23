@@ -31,14 +31,6 @@ const createQueryClient = () =>
         cacheTime: Infinity,
       },
     },
-    logger: {
-      /* eslint-disable no-console */
-      log: console.log,
-      warn: console.warn,
-      // ✅ no more errors on the console for tests
-      error: process.env.NODE_ENV === 'test' ? () => {} : console.error,
-      /* eslint-enable no-console */
-    },
     queryCache: new QueryCache({
       onError: generalErrorToast,
     }),
