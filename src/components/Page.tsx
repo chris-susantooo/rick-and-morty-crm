@@ -16,7 +16,7 @@ const Page = forwardRef<HTMLDivElement, Props>(
     return (
       <main
         className={cn(
-          'flex h-[calc(100%-61px)] w-full flex-col lg:ms-64 lg:h-full',
+          'flex h-[calc(100%-61px)] w-full flex-col lg:h-full',
           className
         )}
         ref={ref}

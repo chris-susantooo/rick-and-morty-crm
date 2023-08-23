@@ -29,7 +29,7 @@ const setRefValue = (inputRef: RefObject<HTMLInputElement>, value: string) => {
   }
 };
 
-const useSearchContactForm = (filters: CharacterFilter) => {
+const useContactForm = (filters: CharacterFilter) => {
   const nameRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLInputElement>(null);
   const genderRef = useRef<HTMLInputElement>(null);
@@ -43,8 +43,11 @@ const useSearchContactForm = (filters: CharacterFilter) => {
   useKey(
     '/',
     () => {
-      nameRef.current?.focus();
-      nameRef.current?.select();
+      const input = nameRef.current;
+      if (document.activeElement !== input) {
+        input?.focus();
+        input?.select();
+      }
     },
     { eventTypes: ['keyup'] }
   );
@@ -76,4 +79,4 @@ const useSearchContactForm = (filters: CharacterFilter) => {
   };
 };
 
-export default useSearchContactForm;
+export default useContactForm;
