@@ -5,7 +5,7 @@ import {
   type ChangeEventHandler,
   type RefObject,
 } from 'react';
-import { useSubmit } from 'react-router-dom';
+import { useNavigate, useSubmit } from 'react-router-dom';
 import type { CharacterFilter } from 'rickmortyapi';
 import { useDebounce, useKey } from 'rooks';
 
@@ -50,6 +50,7 @@ const useSearchContactForm = (filters: CharacterFilter) => {
   );
 
   const submit = useSubmit();
+  const navigate = useNavigate();
   const debouncedSubmit: typeof submit = useDebounce(submit, 500);
 
   const onFormChange: ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -58,11 +59,8 @@ const useSearchContactForm = (filters: CharacterFilter) => {
   );
 
   const resetFilters = useCallback(() => {
-    [nameRef, statusRef, genderRef].forEach(inputRef =>
-      setRefValue(inputRef, '')
-    );
-    submit(new FormData());
-  }, [submit]);
+    navigate(`?name=${nameRef.current?.value}`);
+  }, [navigate]);
 
   const hasActiveFilter = !!(filters.status || filters.gender || filters.name);
 
