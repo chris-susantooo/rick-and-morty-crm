@@ -1,7 +1,9 @@
 {
   "name": "rick-and-morty-crm",
-  "private": true,
-  "version": "0.0.0",
+  "author": {
+    "name": "Chris Susanto"
+  },
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
