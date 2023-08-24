@@ -1,27 +1,73 @@
-# React + TypeScript + Vite
+# Rick and Morty CRM
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
 
-Currently, two official plugins are available:
+React SPA that searches, filters and displays characters from the Rick and Morty API as contacts.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[![Build](https://img.shields.io/github/actions/workflow/status/chris-susantooo/rick-and-morty-crm/ci.yml)](https://github.com/chris-susantooo/rick-and-morty-crm/actions) [![Vite](https://github.com/aleen42/badges/raw/master/src/vitejs.svg)](https://vitejs.dev/) [![React](https://badges.aleen42.com/src/react.svg)](https://react.dev/) [![React Router](https://badges.aleen42.com/src/react-router.svg)](https://reactrouter.com/en/main) [![Tailwind CSS](https://badges.aleen42.com/src/tailwindcss.svg)](https://tailwindcss.com/) [![Renovate Enabled](https://camo.githubusercontent.com/360c8015d9ce49450a3af7d9782f7035ef677763b800bea727b90c37f873433e/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f72656e6f766174652d656e61626c65642d2532333141314636433f6c6f676f3d72656e6f76617465626f74)](https://gitlab.huolala.cn/group-llm/renovate-force) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
-## Expanding the ESLint configuration
+</div>
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🌲 Project structure
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+```bash
+├── public
+└── src
+    ├── components
+    │   ├── Toast
+    │   └── Typography
+    ├── hooks
+    ├── routes
+    │   └── Contact
+    │       ├── Details
+    │       │   └── Episodes
+    │       ├── List
+    │       └── __mocks__
+    └── utils
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### `/routes`
+
+Container components connected to `react-router` are placed in `/routes` folder.
+
+### `/hooks`
+
+Reusable hooks and hooks that consume the `rickmortyapi` are placed in `/hooks` folder.
+
+### `/components`
+
+UI components are placed in `/components` folder. Some are generated from [shadcn/ui](https://ui.shadcn.com/)
+
+## 👩🏻‍💻 Local development
+
+Node 18+ and yarn v1 is recommended. Install dependencies:
+
+```bash
+yarn
+```
+
+Serve locally:
+
+```bash
+yarn dev
+```
+
+## ✅ Linting
+
+```bash
+yarn lint
+```
+
+## 📝 Testing
+
+Powered by [Vitest](https://vitest.dev/guide/). Unit tests are written to cover each route, they are collocated within the same directory, with file names ending with `.test.tsx`. To run unit tests on updated files in watch mode:
+
+```bash
+yarn test
+```
+
+Run all tests and calculate coverage:
+
+```bash
+yarn coverage
+```
