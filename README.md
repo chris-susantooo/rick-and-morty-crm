@@ -36,7 +36,11 @@ Reusable hooks and hooks that consume the `rickmortyapi` are placed in `/hooks` 
 
 ### `/components`
 
-UI components are placed in `/components` folder. Some are generated from [shadcn/ui](https://ui.shadcn.com/)
+UI components are placed in `/components` folder. Some are generated from [shadcn/ui](https://ui.shadcn.com/).
+
+### Unit tests
+
+Unit tests are written to cover each route, they are collocated within the same directory, with file names ending with `.test.tsx`.
 
 ## 👩🏻‍💻 Local development
 
@@ -60,7 +64,7 @@ yarn lint
 
 ## 📝 Testing
 
-Powered by [Vitest](https://vitest.dev/guide/). Unit tests are written to cover each route, they are collocated within the same directory, with file names ending with `.test.tsx`. To run unit tests on updated files in watch mode:
+Powered by [Vitest](https://vitest.dev/guide/). To run unit tests on updated files in watch mode:
 
 ```bash
 yarn test
